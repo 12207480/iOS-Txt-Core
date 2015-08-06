@@ -3,7 +3,7 @@
 //  PCReaderDemo
 //
 //  Created by Zheng on 15/7/30.
-//  Copyright © 2015年 com.duowan. All rights reserved.
+//  Copyright © 2015 com.stoneread.read All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

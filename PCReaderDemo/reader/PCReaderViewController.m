@@ -6,41 +6,64 @@
 //  Copyright (c) 2015 com.stoneread.read All rights reserved.
 //
 
+
+#import "UIColor+PCColor.h"
 #import "PCReaderViewController.h"
 #import "PCModelViewController.h"
 #import "PCDataViewController.h"
-#import "PCCollectViewModel.h"
 #import "PCFontAdjustView.h"
 #import "PCGlobalModel.h"
-#import "PCPageCell.h"
+#import "PCFileHandler.h"
+#import "PCReaderTool.h"
 
 @interface PCReaderViewController () <UICollectionViewDelegate, PCFontAdjustViewDelegate>
 
 @property (strong, nonatomic) PCModelViewController *modelController;
-@property (strong, nonatomic) PCCollectViewModel *collectionViewModel;
 @property (strong, nonatomic) PCGlobalModel *globalModel;
 @property (strong, nonatomic) PCFontAdjustView *fontAdjustView;
 @property (strong, nonatomic) UIButton *menuButton;
 @property (strong, nonatomic) UIButton *backgroundView;
+@property (strong, nonatomic) UIToolbar *toolbar_top;
 @property (strong, nonatomic) UIToolbar *toolbar;
 @property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic) BOOL isShowMenu;
 
+@property (strong, nonatomic) NSArray *toolbarTopConstraintArray;
 @property (strong, nonatomic) NSArray *toolbarConstraintArray;
 
 @end
 
 @implementation PCReaderViewController
 
+- (instancetype)init {
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [[PCGlobalModel shareModel] updateArea];
+    [self adjustRangeArrayForText];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.navigationController setNavigationBarHidden:YES];
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    
+    self.view.backgroundColor = [UIColor colorWithHex:[PCConfig shareModel].backgroundColor];
+    NSDictionary *options =[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:UIPageViewControllerSpineLocationMin]
+                                                       forKey: UIPageViewControllerOptionSpineLocationKey];
+    
+    self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:[PCConfig shareModel].pageMode navigationOrientation:[PCConfig shareModel].pageTrans options:options];
+    
     self.pageController.delegate = self;
     
-    PCDataViewController *startingViewController = [self.modelController viewControllerAtIndex:0];
+    PCDataViewController *startingViewController = [self.modelController viewControllerAtOffset:[PCGlobalModel shareModel].currentOffset];
     NSArray *viewControllers = @[startingViewController];
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
@@ -55,8 +78,6 @@
     self.pageController.view.frame = pageViewRect;
     
     [self.pageController didMoveToParentViewController:self];
-    
-    [self setupCollectionView];
     
     [self.view addSubview:self.menuButton];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_menuButton)]];
@@ -73,21 +94,6 @@
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (void)setupCollectionView
-{
-    [self.view addSubview:self.collectionView];
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_collectionView]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_collectionView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_collectionView]-40-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_collectionView)]];
-    [self.view layoutIfNeeded];
-    
-    self.flowLayout.itemSize = self.collectionView.bounds.size;
-    self.flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    self.flowLayout.minimumLineSpacing = 0;
-    [self.collectionView setCollectionViewLayout:self.flowLayout];
-    self.collectionView.hidden = YES;
-}
-
 - (void)setupBackgroundView
 {
     self.backgroundView = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -102,23 +108,39 @@
 
 - (void)setupToolbar
 {
+    // 顶部工具栏
+    self.toolbar_top = [[UIToolbar alloc] init];
+    self.toolbar_top.translatesAutoresizingMaskIntoConstraints = NO;
+    self.toolbar_top.barStyle = UIBarStyleDefault;
+    
+    UIBarButtonItem *item_close = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(closeDocument)];
+    
+    [self.toolbar_top setItems:@[item_close]];
+    
+    // 底部工具栏
     self.toolbar = [[UIToolbar alloc] init];
     self.toolbar.translatesAutoresizingMaskIntoConstraints = NO;
     self.toolbar.barStyle = UIBarStyleDefault;
     
-    UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"翻页" style:UIBarButtonItemStylePlain target:self action:@selector(changeReadAction)];
-    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"字体" style:UIBarButtonItemStylePlain target:self action:@selector(adjustFontAction)];
+    UIBarButtonItem *item_font = [[UIBarButtonItem alloc] initWithTitle:@"字体" style:UIBarButtonItemStylePlain target:self action:@selector(adjustFontAction)];
     
     UIBarButtonItem *fixibleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    [self.toolbar setItems:@[item1, fixibleItem, item2]];
+    [self.toolbar setItems:@[fixibleItem, item_font]];
     
-    [self.view addSubview:self.fontAdjustView];
+    [self.view addSubview:self.toolbar_top];
     [self.view addSubview:self.toolbar];
+    [self.view addSubview:self.fontAdjustView];
+    
+    // 调整位置约束
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_toolbar_top]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar_top)]];
+    self.toolbarTopConstraintArray = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(-48)-[_toolbar_top(48)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar_top)];
+    [self.view addConstraints:self.toolbarTopConstraintArray];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_toolbar]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar)]];
     self.toolbarConstraintArray = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_toolbar(48)]-(-48)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar)];
     [self.view addConstraints:self.toolbarConstraintArray];
+    
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_fontAdjustView(44)]-48-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_fontAdjustView)]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.fontAdjustView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
@@ -127,9 +149,15 @@
 
 - (void)showToolbar
 {
+    [self.view removeConstraints:self.toolbarTopConstraintArray];
     [self.view removeConstraints:self.toolbarConstraintArray];
+    
+    self.toolbarTopConstraintArray = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_toolbar_top(48)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar_top)];
     self.toolbarConstraintArray = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_toolbar(48)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar)];
+    
+    [self.view addConstraints:self.toolbarTopConstraintArray];
     [self.view addConstraints:self.toolbarConstraintArray];
+    
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutIfNeeded];
     }];
@@ -137,32 +165,62 @@
 
 - (void)hideToolbar
 {
+    [self.view removeConstraints:self.toolbarTopConstraintArray];
     [self.view removeConstraints:self.toolbarConstraintArray];
+    
+    self.toolbarTopConstraintArray = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(-48)-[_toolbar_top(48)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar_top)];
     self.toolbarConstraintArray = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_toolbar(48)]-(-48)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_toolbar)];
+    
+    [self.view addConstraints:self.toolbarTopConstraintArray];
     [self.view addConstraints:self.toolbarConstraintArray];
+    
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutIfNeeded];
     }];
 }
 
-- (void)loadText:(NSString *)text
+- (void)loadText:(NSURL *)url
 {
-    [self.globalModel loadText:text completion:^{
-        self.collectionViewModel.text = self.globalModel.text;
-        self.collectionViewModel.attributes = self.globalModel.attributes;
-        self.collectionViewModel.dataArray = self.globalModel.rangeArray;
-        [self.collectionView reloadData];
-        
-        self.modelController.text = self.globalModel.text;
-        self.modelController.attributes = self.globalModel.attributes;
-        self.modelController.pageData = self.globalModel.rangeArray;
-        [self pageControllerSetIndex:[PCGlobalModel shareModel].currentPage];
-    }];
+    _fileHandler = [[PCFileHandler alloc] initWithURL:url];
+    _fileHandler.delegate = self;
+    [_fileHandler startProcessingWithCache:url];
 }
 
-- (void)pageControllerSetIndex:(NSInteger)index
+- (void)didFinishLoadingText:(PCFileHandler *)fileHandler {
+    [self.globalModel loadText:fileHandler.text completion:^{
+        self.modelController.text = self.globalModel.text;
+        self.modelController.attributes = self.globalModel.attributes;
+        self.modelController.pageData = self.globalModel.rangeData;
+        [self pageControllerSetOffset:self.globalModel.currentOffset];
+    }];
+    if ([self.delegate respondsToSelector:@selector(didFinishLoadingPCReader:)] == YES)
+    {
+        [self.delegate didFinishLoadingPCReader:self];
+    }
+    else
+    {
+        NSAssert(NO, @"Delegate must respond to -didFinishLoadingPCReader:");
+    }
+}
+
+- (void)didFatalLoadingWithError:(NSError *)error {
+    if ([self.delegate respondsToSelector:@selector(didFatalLoadingPCReaderWithError:)] == YES)
+    {
+        [self.delegate didFatalLoadingPCReaderWithError:error];
+    }
+    else
+    {
+        NSAssert(NO, @"Delegate must respond to -didFatalLoadingPCReaderWithError:");
+    }
+}
+
+// 直接定位步骤
+// 第一步：分页
+// 调用 reloadPaginationByOffset:(NSInteger) allowRelocate:(BOOL) 进行分页
+// 第二步：调用该方法显示出控制器
+- (void)pageControllerSetOffset:(NSInteger)offset
 {
-    [self.pageController setViewControllers:@[[self.modelController viewControllerAtIndex:index]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    [self.pageController setViewControllers:@[[self.modelController viewControllerAtOffset:offset]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -170,11 +228,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)memuAction
+- (void)closeDocument {
+    _fileHandler = nil;
+    _pageController = nil;
+    [[PCGlobalModel shareModel] clear];
+    if ([self.delegate respondsToSelector:@selector(dismissPCReaderViewController:)] == YES)
+    {
+        [self.delegate dismissPCReaderViewController:self];
+    }
+    else
+    {
+        NSAssert(NO, @"Delegate must respond to -dismissPCReaderViewController:");
+    }
+}
+
+- (void)menuAction
 {
     self.isShowMenu = !self.isShowMenu;
     
-    [self.navigationController setNavigationBarHidden:!self.isShowMenu animated:YES];
     [self setNeedsStatusBarAppearanceUpdate];
     self.backgroundView.hidden = !self.isShowMenu;
     if (self.isShowMenu) {
@@ -188,7 +259,7 @@
 {
     self.isShowMenu = NO;
     
-    [self.navigationController setNavigationBarHidden:!self.isShowMenu animated:YES];
+    [self setNeedsStatusBarAppearanceUpdate];
     self.backgroundView.hidden = !self.isShowMenu;
     self.fontAdjustView.alpha = 0;
     if (self.isShowMenu) {
@@ -215,66 +286,31 @@
 
 #pragma mark - UIPageViewController delegate methods
 
+// 横屏双页支持（尚未实现）
 - (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation {
     // Set the spine position to "min" and the page view controller's view controllers array to contain just one view controller. Setting the spine position to 'UIPageViewControllerSpineLocationMid' in landscape orientation sets the doubleSided property to YES, so set it to NO here.
-    UIViewController *currentViewController = self.pageController.viewControllers[0];
-    NSArray *viewControllers = @[currentViewController];
-    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    [self.pageController setViewControllers:@[self.pageController.viewControllers[0]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     
     self.pageController.doubleSided = NO;
     return UIPageViewControllerSpineLocationMin;
 }
 
-#pragma mark - UICollectionViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSInteger page = scrollView.contentOffset.y / scrollView.frame.size.height;
-    [PCGlobalModel shareModel].currentPage = page;
-    [PCGlobalModel shareModel].currentRange = NSRangeFromString([PCGlobalModel shareModel].rangeArray[page]);
-    [[NSNotificationCenter defaultCenter] postNotificationName:kUpdatePageNotification object:nil];
-}
-
 #pragma mark - PCFontAdjustViewDelegate
 
+// 重新排布
 - (void)adjustRangeArrayForText
 {
-    [[PCGlobalModel shareModel] updateFontCompletion:^{
-        self.collectionViewModel.text = self.globalModel.text;
-        self.collectionViewModel.attributes = self.globalModel.attributes;
-        self.collectionViewModel.dataArray = self.globalModel.rangeArray;
-        self.collectionView.delegate = nil;
-        [self.collectionView reloadData];
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[PCGlobalModel shareModel].currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+    [self.globalModel updateFontCompletion:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kUpdatePageNotification object:nil];
-        self.collectionView.delegate = self;
-        
+
         self.modelController.text = self.globalModel.text;
         self.modelController.attributes = self.globalModel.attributes;
-        self.modelController.pageData = self.globalModel.rangeArray;
-        [self pageControllerSetIndex:[PCGlobalModel shareModel].currentPage];
+        self.modelController.pageData = self.globalModel.rangeData;
+        [self pageControllerSetOffset:self.globalModel.currentOffset];
     }];
 }
 
 #pragma mark - toolbar Action
-
-- (void)changeReadAction
-{
-    self.collectionView.hidden = !self.collectionView.hidden;
-    self.pageController.view.userInteractionEnabled = self.collectionView.hidden;
-    
-    if (self.collectionView.hidden) {
-        [self pageControllerSetIndex:[PCGlobalModel shareModel].currentPage];
-    } else {
-        self.collectionView.delegate = nil;
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[PCGlobalModel shareModel].currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kUpdatePageNotification object:nil];
-        self.collectionView.delegate = self;
-    }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self backgroundAction];
-    });
-}
 
 - (void)adjustFontAction
 {
@@ -296,24 +332,9 @@
     if (!_menuButton) {
         _menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _menuButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_menuButton addTarget:self action:@selector(memuAction) forControlEvents:UIControlEventTouchUpInside];
+        [_menuButton addTarget:self action:@selector(menuAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _menuButton;
-}
-
-- (UICollectionView *)collectionView
-{
-    if (!_collectionView) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[UICollectionViewLayout alloc] init]];
-        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.backgroundColor = [UIColor whiteColor];
-        _collectionView.dataSource = self.collectionViewModel;
-        _collectionView.delegate = self;
-        self.collectionViewModel.collectionView = _collectionView;
-        [_collectionView registerClass:[PCPageCell class] forCellWithReuseIdentifier:PageCellIdentifier];
-    }
-    return _collectionView;
 }
 
 - (UICollectionViewFlowLayout *)flowLayout
@@ -322,14 +343,6 @@
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
     }
     return _flowLayout;
-}
-
-- (PCCollectViewModel *)collectionViewModel
-{
-    if (!_collectionViewModel) {
-        _collectionViewModel = [[PCCollectViewModel alloc] init];
-    }
-    return _collectionViewModel;
 }
 
 - (PCGlobalModel *)globalModel

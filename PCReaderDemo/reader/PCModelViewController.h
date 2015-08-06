@@ -7,21 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCPageData.h"
 #import "PCDataViewController.h"
 #import "PCReaderViewController.h"
 
 #define kAdjustFontNotification     @"kAdjustFontNotification"
 
-@interface PCModelViewController : NSObject<UIPageViewControllerDataSource>
+@interface PCModelViewController : NSObject <UIPageViewControllerDataSource>
 
 @property (weak, nonatomic) PCReaderViewController *readerController;
 @property (strong, nonatomic) NSString *displayName;
-@property (strong, nonatomic) NSArray *pageData;
+@property (strong, nonatomic) PCPageData *pageData;
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) NSDictionary *attributes;
 
-- (PCDataViewController *)viewControllerAtIndex:(NSUInteger)index;
+- (PCDataViewController *)viewControllerAtOffset:(NSUInteger)offset;
 
-- (NSUInteger)indexOfViewController:(PCDataViewController *)viewController;
+- (NSInteger)offsetOfViewController:(PCDataViewController *)viewController;
 
 @end

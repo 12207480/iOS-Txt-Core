@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCPageData.h"
 
 @interface PCCollectViewModel : NSObject<UICollectionViewDataSource>
 
 @property (nonatomic, weak) UICollectionView *collectionView;
 
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) PCPageData *data;
 @property (nonatomic, strong) NSDictionary *attributes;
 
 @end

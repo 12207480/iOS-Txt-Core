@@ -3,7 +3,7 @@
 //  PCReaderDemo
 //
 //  Created by Zheng on 15/7/30.
-//  Copyright © 2015年 com.duowan. All rights reserved.
+//  Copyright © 2015 com.stoneread.read All rights reserved.
 //
 
 #import "PCFontAdjustView.h"
@@ -29,11 +29,11 @@
 
 - (void)plusAction
 {
-    if ([PCGlobalModel shareModel].fontSize >= 30) {
+    if ([PCConfig shareModel].fontSize >= 30) {
         
     } else {
         self.plusButton.enabled = YES;
-        [PCGlobalModel shareModel].fontSize += 2;
+        [PCConfig shareModel].fontSize += 2;
         if ([self.delegate respondsToSelector:@selector(adjustRangeArrayForText)]) {
             [self.delegate adjustRangeArrayForText];
         }
@@ -42,11 +42,11 @@
 
 - (void)minusAction
 {
-    if ([PCGlobalModel shareModel].fontSize <= 14) {
+    if ([PCConfig shareModel].fontSize <= 12) {
         
     } else {
         self.minusButton.enabled = YES;
-        [PCGlobalModel shareModel].fontSize -= 2;
+        [PCConfig shareModel].fontSize -= 2;
         if ([self.delegate respondsToSelector:@selector(adjustRangeArrayForText)]) {
             [self.delegate adjustRangeArrayForText];
         }
@@ -76,5 +76,6 @@
     }
     return _minusButton;
 }
+
 
 @end

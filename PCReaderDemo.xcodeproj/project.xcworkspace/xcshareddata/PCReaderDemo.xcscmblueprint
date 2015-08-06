@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7CCEEAC0ABE5030828D029C0177030027D141BD0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580" : 0,
+    "7CCEEAC0ABE5030828D029C0177030027D141BD0" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F9355CE8-34DB-48E9-A922-4BE96A9B983F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580" : "..\/..\/..\/opt\/theos",
+    "7CCEEAC0ABE5030828D029C0177030027D141BD0" : "ReaderForTxt-master\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PCReaderDemo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "PCReaderDemo.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Lessica\/PCReaderDemo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7CCEEAC0ABE5030828D029C0177030027D141BD0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/github.com\/DHowett\/theos.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E2811579280C8FC45DBD8A3EB086096BA7A2E580"
+    }
+  ]
+}

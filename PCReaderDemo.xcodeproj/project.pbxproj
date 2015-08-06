@@ -7,36 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F0D02011B6895E500C8318D /* Untitled.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F0D02001B6895E500C8318D /* Untitled.txt */; };
+		0F0030E21B70C24400E544D1 /* PCBookMark.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0030E11B70C24400E544D1 /* PCBookMark.m */; };
+		0F2603231B71F01400DDA01A /* Source Han Sans K.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0834D1B71E86500ABB77A /* Source Han Sans K.ttf */; };
+		0F2603241B71F01400DDA01A /* STKaiti.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0834E1B71E86500ABB77A /* STKaiti.ttf */; };
+		0F2603251B71F01400DDA01A /* Tianshi-SunOld.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FB0834F1B71E86500ABB77A /* Tianshi-SunOld.ttf */; };
+		0F5792AF1B719EEE0093E778 /* PCConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5792AE1B719EEE0093E778 /* PCConfig.m */; };
+		0F5792B51B71AC7D0093E778 /* NSString+PCPaging.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5792B31B71AC7D0093E778 /* NSString+PCPaging.m */; };
+		0F5792B61B71AC7D0093E778 /* UIColor+PCColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5792B41B71AC7D0093E778 /* UIColor+PCColor.m */; };
+		0F5792B91B71D93D0093E778 /* PCFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5792B81B71D93D0093E778 /* PCFileHandler.m */; };
+		0FA9039A1B6B0528000D0A4B /* PCPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA903991B6B0528000D0A4B /* PCPageView.m */; };
+		0FD0DEC51B71FFA400D15B30 /* HYXiYuanJ.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FD0DEC41B71FFA400D15B30 /* HYXiYuanJ.ttf */; };
 		0FF0EC8C1B6A191B00EE70CC /* PCFontAdjustView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF0EC8B1B6A191B00EE70CC /* PCFontAdjustView.m */; };
-		2E151E391AAE97F8005260D6 /* PCPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E151E381AAE97F8005260D6 /* PCPageView.m */; };
-		2E151E3C1AAE9AD1005260D6 /* NSString+PCPaging.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E151E3B1AAE9AD1005260D6 /* NSString+PCPaging.m */; };
-		2E151E3E1AAE9F19005260D6 /* test.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E151E3D1AAE9F19005260D6 /* test.txt */; };
+		0FF0EC8F1B6A263A00EE70CC /* PCPageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF0EC8E1B6A263A00EE70CC /* PCPageData.m */; };
 		2E15E5261AB7F7ED0048768A /* PCGlobalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E15E5251AB7F7ED0048768A /* PCGlobalModel.m */; };
 		2E6B099E1AAD76950032B6BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B099D1AAD76950032B6BE /* main.m */; };
 		2E6B09A11AAD76960032B6BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09A01AAD76960032B6BE /* AppDelegate.m */; };
 		2E6B09A41AAD76960032B6BE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09A31AAD76960032B6BE /* ViewController.m */; };
 		2E6B09A71AAD76960032B6BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B09A51AAD76960032B6BE /* Main.storyboard */; };
 		2E6B09A91AAD76960032B6BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B09A81AAD76960032B6BE /* Images.xcassets */; };
-		2E6B09AC1AAD76960032B6BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B09AA1AAD76960032B6BE /* LaunchScreen.xib */; };
 		2E6B09C31AAD76C80032B6BE /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6B09C21AAD76C80032B6BE /* CoreText.framework */; };
 		2E6B09C61AAD7AD80032B6BE /* PCReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09C51AAD7AD80032B6BE /* PCReaderViewController.m */; };
 		2E6B09C91AAD838C0032B6BE /* PCDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09C81AAD838C0032B6BE /* PCDataViewController.m */; };
 		2E6B09CC1AAD84640032B6BE /* PCModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B09CB1AAD84640032B6BE /* PCModelViewController.m */; };
 		2E90525D1AC16CE400465DC8 /* PCReaderTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E90525C1AC16CE400465DC8 /* PCReaderTool.m */; };
-		2E9116801AB7C8C9007F92E1 /* PCCollectViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E91167F1AB7C8C9007F92E1 /* PCCollectViewModel.m */; };
-		2E9116831AB7CCE1007F92E1 /* PCPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9116821AB7CCE1007F92E1 /* PCPageCell.m */; };
+		B4891E2859396C862BA27BE1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC94973D2431191C6F9EB5C /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0F0D02001B6895E500C8318D /* Untitled.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Untitled.txt; sourceTree = "<group>"; };
+		0F0030E01B70C24400E544D1 /* PCBookMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBookMark.h; sourceTree = "<group>"; };
+		0F0030E11B70C24400E544D1 /* PCBookMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBookMark.m; sourceTree = "<group>"; };
+		0F5792AD1B719EEE0093E778 /* PCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCConfig.h; sourceTree = "<group>"; };
+		0F5792AE1B719EEE0093E778 /* PCConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCConfig.m; sourceTree = "<group>"; };
+		0F5792B01B71AC460093E778 /* UIColor+PCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+PCColor.h"; sourceTree = "<group>"; };
+		0F5792B31B71AC7D0093E778 /* NSString+PCPaging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PCPaging.m"; sourceTree = "<group>"; };
+		0F5792B41B71AC7D0093E778 /* UIColor+PCColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+PCColor.m"; sourceTree = "<group>"; };
+		0F5792B71B71D93D0093E778 /* PCFileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCFileHandler.h; sourceTree = "<group>"; };
+		0F5792B81B71D93D0093E778 /* PCFileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCFileHandler.m; sourceTree = "<group>"; };
+		0FA903981B6B0528000D0A4B /* PCPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPageView.h; sourceTree = "<group>"; };
+		0FA903991B6B0528000D0A4B /* PCPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPageView.m; sourceTree = "<group>"; };
+		0FB0834D1B71E86500ABB77A /* Source Han Sans K.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Source Han Sans K.ttf"; sourceTree = "<group>"; };
+		0FB0834E1B71E86500ABB77A /* STKaiti.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = STKaiti.ttf; sourceTree = "<group>"; };
+		0FB0834F1B71E86500ABB77A /* Tianshi-SunOld.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Tianshi-SunOld.ttf"; sourceTree = "<group>"; };
+		0FD0DEC41B71FFA400D15B30 /* HYXiYuanJ.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HYXiYuanJ.ttf; sourceTree = "<group>"; };
 		0FF0EC8A1B6A191B00EE70CC /* PCFontAdjustView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCFontAdjustView.h; sourceTree = "<group>"; };
 		0FF0EC8B1B6A191B00EE70CC /* PCFontAdjustView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCFontAdjustView.m; sourceTree = "<group>"; };
-		2E151E371AAE97F8005260D6 /* PCPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPageView.h; sourceTree = "<group>"; };
-		2E151E381AAE97F8005260D6 /* PCPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPageView.m; sourceTree = "<group>"; };
+		0FF0EC8D1B6A263A00EE70CC /* PCPageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPageData.h; sourceTree = "<group>"; };
+		0FF0EC8E1B6A263A00EE70CC /* PCPageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPageData.m; sourceTree = "<group>"; };
 		2E151E3A1AAE9AD1005260D6 /* NSString+PCPaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PCPaging.h"; sourceTree = "<group>"; };
-		2E151E3B1AAE9AD1005260D6 /* NSString+PCPaging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PCPaging.m"; sourceTree = "<group>"; };
-		2E151E3D1AAE9F19005260D6 /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
 		2E15E5241AB7F7ED0048768A /* PCGlobalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCGlobalModel.h; sourceTree = "<group>"; };
 		2E15E5251AB7F7ED0048768A /* PCGlobalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCGlobalModel.m; sourceTree = "<group>"; };
 		2E6B09981AAD76950032B6BE /* PCReaderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PCReaderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +65,6 @@
 		2E6B09A31AAD76960032B6BE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2E6B09A61AAD76960032B6BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E6B09A81AAD76960032B6BE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		2E6B09AB1AAD76960032B6BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		2E6B09C21AAD76C80032B6BE /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		2E6B09C41AAD7AD80032B6BE /* PCReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCReaderViewController.h; sourceTree = "<group>"; };
 		2E6B09C51AAD7AD80032B6BE /* PCReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCReaderViewController.m; sourceTree = "<group>"; };
@@ -58,10 +74,9 @@
 		2E6B09CB1AAD84640032B6BE /* PCModelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCModelViewController.m; sourceTree = "<group>"; };
 		2E90525B1AC16CE400465DC8 /* PCReaderTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCReaderTool.h; sourceTree = "<group>"; };
 		2E90525C1AC16CE400465DC8 /* PCReaderTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCReaderTool.m; sourceTree = "<group>"; };
-		2E91167E1AB7C8C9007F92E1 /* PCCollectViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCollectViewModel.h; sourceTree = "<group>"; };
-		2E91167F1AB7C8C9007F92E1 /* PCCollectViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCollectViewModel.m; sourceTree = "<group>"; };
-		2E9116811AB7CCE1007F92E1 /* PCPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPageCell.h; sourceTree = "<group>"; };
-		2E9116821AB7CCE1007F92E1 /* PCPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPageCell.m; sourceTree = "<group>"; };
+		35D6457BB7FAFFCBFCCC4EB6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B9F3FF46CDC847777B11D08D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		BCC94973D2431191C6F9EB5C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6B09C31AAD76C80032B6BE /* CoreText.framework in Frameworks */,
+				B4891E2859396C862BA27BE1 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +105,6 @@
 			children = (
 				2E6B099B1AAD76950032B6BE /* Supporting Files */,
 				2E6B09A51AAD76960032B6BE /* Main.storyboard */,
-				2E6B09AA1AAD76960032B6BE /* LaunchScreen.xib */,
 				2E6B09A81AAD76960032B6BE /* Images.xcassets */,
 			);
 			name = Others;
@@ -98,6 +113,7 @@
 		0F0BAEFA1B69A87C00EBF12D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0FB083461B71E7CA00ABB77A /* Fonts */,
 				0F0BAEFB1B69A88300EBF12D /* Books */,
 			);
 			name = Resources;
@@ -106,8 +122,6 @@
 		0F0BAEFB1B69A88300EBF12D /* Books */ = {
 			isa = PBXGroup;
 			children = (
-				2E151E3D1AAE9F19005260D6 /* test.txt */,
-				0F0D02001B6895E500C8318D /* Untitled.txt */,
 			);
 			name = Books;
 			sourceTree = "<group>";
@@ -139,8 +153,16 @@
 		0F0BAEFE1B69A8D500EBF12D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2E91167E1AB7C8C9007F92E1 /* PCCollectViewModel.h */,
-				2E91167F1AB7C8C9007F92E1 /* PCCollectViewModel.m */,
+				0F5792AD1B719EEE0093E778 /* PCConfig.h */,
+				0F5792AE1B719EEE0093E778 /* PCConfig.m */,
+				0F0030E01B70C24400E544D1 /* PCBookMark.h */,
+				0F0030E11B70C24400E544D1 /* PCBookMark.m */,
+				0FF0EC8D1B6A263A00EE70CC /* PCPageData.h */,
+				0FF0EC8E1B6A263A00EE70CC /* PCPageData.m */,
+				2E90525B1AC16CE400465DC8 /* PCReaderTool.h */,
+				2E90525C1AC16CE400465DC8 /* PCReaderTool.m */,
+				0F5792B71B71D93D0093E778 /* PCFileHandler.h */,
+				0F5792B81B71D93D0093E778 /* PCFileHandler.m */,
 				2E15E5241AB7F7ED0048768A /* PCGlobalModel.h */,
 				2E15E5251AB7F7ED0048768A /* PCGlobalModel.m */,
 			);
@@ -150,10 +172,8 @@
 		0F0BAEFF1B69A8E500EBF12D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2E9116811AB7CCE1007F92E1 /* PCPageCell.h */,
-				2E9116821AB7CCE1007F92E1 /* PCPageCell.m */,
-				2E151E371AAE97F8005260D6 /* PCPageView.h */,
-				2E151E381AAE97F8005260D6 /* PCPageView.m */,
+				0FA903981B6B0528000D0A4B /* PCPageView.h */,
+				0FA903991B6B0528000D0A4B /* PCPageView.m */,
 				0FF0EC8A1B6A191B00EE70CC /* PCFontAdjustView.h */,
 				0FF0EC8B1B6A191B00EE70CC /* PCFontAdjustView.m */,
 			);
@@ -163,12 +183,32 @@
 		0F0BAF001B69A8EE00EBF12D /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				2E90525B1AC16CE400465DC8 /* PCReaderTool.h */,
-				2E90525C1AC16CE400465DC8 /* PCReaderTool.m */,
 				2E151E3A1AAE9AD1005260D6 /* NSString+PCPaging.h */,
-				2E151E3B1AAE9AD1005260D6 /* NSString+PCPaging.m */,
+				0F5792B31B71AC7D0093E778 /* NSString+PCPaging.m */,
+				0F5792B01B71AC460093E778 /* UIColor+PCColor.h */,
+				0F5792B41B71AC7D0093E778 /* UIColor+PCColor.m */,
 			);
 			name = Core;
+			sourceTree = "<group>";
+		};
+		0FB083461B71E7CA00ABB77A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0FB0834D1B71E86500ABB77A /* Source Han Sans K.ttf */,
+				0FD0DEC41B71FFA400D15B30 /* HYXiYuanJ.ttf */,
+				0FB0834E1B71E86500ABB77A /* STKaiti.ttf */,
+				0FB0834F1B71E86500ABB77A /* Tianshi-SunOld.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		1EFD4D7458E9DD5EF3D24F99 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				35D6457BB7FAFFCBFCCC4EB6 /* Pods.debug.xcconfig */,
+				B9F3FF46CDC847777B11D08D /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		2E6B098F1AAD76950032B6BE = {
@@ -176,6 +216,8 @@
 			children = (
 				2E6B099A1AAD76950032B6BE /* PCReaderDemo */,
 				2E6B09991AAD76950032B6BE /* Products */,
+				1EFD4D7458E9DD5EF3D24F99 /* Pods */,
+				38B71001C99C3B1B2EE4E06E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,6 +262,14 @@
 			path = reader;
 			sourceTree = "<group>";
 		};
+		38B71001C99C3B1B2EE4E06E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCC94973D2431191C6F9EB5C /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -227,9 +277,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E6B09BB1AAD76960032B6BE /* Build configuration list for PBXNativeTarget "PCReaderDemo" */;
 			buildPhases = (
+				71AAC1569C21472BB25F9729 /* Check Pods Manifest.lock */,
 				2E6B09941AAD76950032B6BE /* Sources */,
 				2E6B09951AAD76950032B6BE /* Frameworks */,
 				2E6B09961AAD76950032B6BE /* Resources */,
+				1098A300A8AF72C47CF9B8C4 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -251,6 +303,7 @@
 				TargetAttributes = {
 					2E6B09971AAD76950032B6BE = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = GXZ23M5TP2;
 					};
 				};
 			};
@@ -277,15 +330,49 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F2603231B71F01400DDA01A /* Source Han Sans K.ttf in Resources */,
+				0F2603241B71F01400DDA01A /* STKaiti.ttf in Resources */,
+				0FD0DEC51B71FFA400D15B30 /* HYXiYuanJ.ttf in Resources */,
+				0F2603251B71F01400DDA01A /* Tianshi-SunOld.ttf in Resources */,
 				2E6B09A71AAD76960032B6BE /* Main.storyboard in Resources */,
-				0F0D02011B6895E500C8318D /* Untitled.txt in Resources */,
-				2E6B09AC1AAD76960032B6BE /* LaunchScreen.xib in Resources */,
-				2E151E3E1AAE9F19005260D6 /* test.txt in Resources */,
 				2E6B09A91AAD76960032B6BE /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1098A300A8AF72C47CF9B8C4 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		71AAC1569C21472BB25F9729 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2E6B09941AAD76950032B6BE /* Sources */ = {
@@ -293,15 +380,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6B09C61AAD7AD80032B6BE /* PCReaderViewController.m in Sources */,
-				2E9116801AB7C8C9007F92E1 /* PCCollectViewModel.m in Sources */,
 				2E6B09A41AAD76960032B6BE /* ViewController.m in Sources */,
-				2E151E3C1AAE9AD1005260D6 /* NSString+PCPaging.m in Sources */,
+				0FA9039A1B6B0528000D0A4B /* PCPageView.m in Sources */,
 				2E6B09A11AAD76960032B6BE /* AppDelegate.m in Sources */,
 				2E90525D1AC16CE400465DC8 /* PCReaderTool.m in Sources */,
-				2E151E391AAE97F8005260D6 /* PCPageView.m in Sources */,
+				0F0030E21B70C24400E544D1 /* PCBookMark.m in Sources */,
+				0F5792B61B71AC7D0093E778 /* UIColor+PCColor.m in Sources */,
+				0FF0EC8F1B6A263A00EE70CC /* PCPageData.m in Sources */,
 				2E6B09CC1AAD84640032B6BE /* PCModelViewController.m in Sources */,
+				0F5792B51B71AC7D0093E778 /* NSString+PCPaging.m in Sources */,
 				0FF0EC8C1B6A191B00EE70CC /* PCFontAdjustView.m in Sources */,
-				2E9116831AB7CCE1007F92E1 /* PCPageCell.m in Sources */,
+				0F5792B91B71D93D0093E778 /* PCFileHandler.m in Sources */,
+				0F5792AF1B719EEE0093E778 /* PCConfig.m in Sources */,
 				2E6B099E1AAD76950032B6BE /* main.m in Sources */,
 				2E6B09C91AAD838C0032B6BE /* PCDataViewController.m in Sources */,
 				2E15E5261AB7F7ED0048768A /* PCGlobalModel.m in Sources */,
@@ -317,14 +407,6 @@
 				2E6B09A61AAD76960032B6BE /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		2E6B09AA1AAD76960032B6BE /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E6B09AB1AAD76960032B6BE /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -365,7 +447,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -400,7 +482,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -409,24 +491,32 @@
 		};
 		2E6B09BC1AAD76960032B6BE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35D6457BB7FAFFCBFCCC4EB6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				INFOPLIST_FILE = PCReaderDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.stoneread.readlolbox;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stoneread.read;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		2E6B09BD1AAD76960032B6BE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9F3FF46CDC847777B11D08D /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				INFOPLIST_FILE = PCReaderDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.stoneread.readlolbox;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stoneread.read;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

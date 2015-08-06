@@ -7,6 +7,7 @@
 //
 
 #import "PCGlobalModel.h"
+#import "UIColor+PCColor.h"
 #import "NSString+PCPaging.h"
 
 @implementation PCGlobalModel
@@ -25,7 +26,9 @@
 {
     self = [super init];
     if (self) {
-        self.fontSize = 18;
+        self.fontSize = [PCConfig shareModel].fontSize;
+        [self updateArea];
+        _currentOffset = [[PCConfig shareModel] initOffset];
     }
     return self;
 }
@@ -38,30 +41,45 @@
 
 - (void)pagingTextCompletion:(void (^)(void))completion
 {
-    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:5];
-    UIFont *font = [UIFont systemFontOfSize:self.fontSize];
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithCapacity:6];
+    
+    // 设置字体
+    UIFont *font = [UIFont fontWithName:[[PCConfig shareModel] font] size:[PCConfig shareModel].fontSize];
+    [attributes setValue:[UIColor colorWithHex:[PCConfig shareModel].fontColor] forKey:NSForegroundColorAttributeName];
     [attributes setValue:font forKey:NSFontAttributeName];
     [attributes setValue:@(1.0) forKey:NSKernAttributeName];
     
+    // 设置段落
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 5.0;
-    paragraphStyle.paragraphSpacing = 10.0;
+    paragraphStyle.lineSpacing = [PCConfig shareModel].lineSpacing;
+    paragraphStyle.paragraphSpacing = [PCConfig shareModel].paragraphSpacing;
     paragraphStyle.alignment = NSTextAlignmentLeft;
     
-    //设置首行缩进
-    const char indentChars[7] = { 0xe3, 0x80, 0x80, 0xe3, 0x80, 0x80, 0x00 };
-    NSString *indentStr = [[NSString alloc] initWithBytes:indentChars length:6 encoding:NSUTF8StringEncoding];
-    NSMutableAttributedString *indentMStr = [[NSMutableAttributedString alloc] initWithString:indentStr];
-    [indentMStr addAttributes:attributes range:NSMakeRange(0, indentMStr.length)];
-    paragraphStyle.firstLineHeadIndent = indentMStr.size.width;
+// TODO: 这种首行缩进方式存在问题
+//    if ([PCConfig shareModel].autoIndent) {
+//        const char indentChars[7] = { 0xe3, 0x80, 0x80, 0xe3, 0x80, 0x80, 0x00 };
+//        NSString *indentStr = [[NSString alloc] initWithBytes:indentChars length:6 encoding:NSUTF8StringEncoding];
+//        NSMutableAttributedString *indentMStr = [[NSMutableAttributedString alloc] initWithString:indentStr];
+//        [indentMStr addAttributes:attributes range:NSMakeRange(0, indentMStr.length)];
+//        paragraphStyle.firstLineHeadIndent = indentMStr.size.width;
+//    }
     
     [attributes setValue:paragraphStyle forKey:NSParagraphStyleAttributeName];
     
     self.attributes = [attributes copy];
-    self.rangeArray = [[self.text paginationWithAttributes:self.attributes constrainedToSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 10 * 2, [UIScreen mainScreen].bounds.size.height - 40 * 2) range:NSMakeRange(0, 20000)] mutableCopy];
+    
+    self.rangeData = [[self.text paginationWithAttributes:self.attributes constrainedToSize:_area range:NSMakeRange(_currentOffset, PC_CACHE_BYTES) allowRelocate:YES] mutableCopy];
+    self.currentOffset = self.rangeData.relocatedOffset;
     if (completion) {
         completion();
     }
+}
+
+- (PCPageData *)reloadPaginationByOffset:(NSInteger)offset
+                           allowRelocate:(BOOL)shouldRelocate {
+    _rangeData = [[_text paginationWithAttributes:_attributes constrainedToSize:_area range:NSMakeRange(offset,PC_CACHE_BYTES) allowRelocate:shouldRelocate] mutableCopy];
+    _currentOffset = _rangeData.relocatedOffset;
+    return _rangeData;
 }
 
 - (void)updateFontCompletion:(void (^)(void))completion
@@ -70,10 +88,10 @@
     NSRange range = self.currentRange;
     [self pagingTextCompletion:^{
         //重新定位页码
-        [self.rangeArray enumerateObjectsUsingBlock:^(NSString *rangeStr, NSUInteger idx, BOOL *stop) {
-            NSRange tempRange = NSRangeFromString(rangeStr);
+        [self.rangeData.cachedPagination enumerateKeysAndObjectsUsingBlock:^(NSNumber *offset, NSNumber *length, BOOL *stop) {
+            NSRange tempRange = NSMakeRange([offset integerValue], [length integerValue]);
             if (tempRange.location <= range.location && tempRange.location + tempRange.length > range.location) {
-                self.currentPage = idx;
+                self.currentOffset = [offset integerValue];
                 *stop = YES;
             }
         }];
@@ -85,18 +103,28 @@
 
 - (void)setFontSize:(CGFloat)fontSize
 {
-    if (fontSize < 14.0) {
-        _fontSize = 14.0;
+    if (fontSize < 12.0) {
+        [PCConfig shareModel].fontSize = 12.0;
     } else if (fontSize > 30.0) {
-        _fontSize = 30.0;
+        [PCConfig shareModel].fontSize = 30.0;
     } else {
-        _fontSize = fontSize;
+        [PCConfig shareModel].fontSize = fontSize;
     }
 }
 
 - (void)setCurrentRange:(NSRange)currentRange
 {
     _currentRange = currentRange;
+}
+
+- (void)clear {
+    _text = nil;
+    _rangeData = nil;
+    _attributes = nil;
+}
+
+- (void)updateArea {
+    _area = CGSizeMake([UIScreen mainScreen].bounds.size.width - 10 * 2, [UIScreen mainScreen].bounds.size.height - 40 * 2);
 }
 
 @end

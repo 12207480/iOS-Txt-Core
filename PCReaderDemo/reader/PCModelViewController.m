@@ -23,56 +23,77 @@
     return self;
 }
 
-- (PCDataViewController *)viewControllerAtIndex:(NSUInteger)index {
+- (PCDataViewController *)viewControllerAtOffset:(NSUInteger)offset {
     // Return the data view controller for the given index.
-    if (([self.pageData count] == 0) || (index >= [self.pageData count])) {
+    NSInteger length = [self.pageData getLengthByOffset:offset];
+    if (([self.pageData totalBytes] == 0) || (length <= 0)) {
         return nil;
     }
     
     // Create a new view controller and pass suitable data.
     PCDataViewController *dataViewController = [[PCDataViewController alloc] init];
-    dataViewController.dataObject = [self.text substringWithRange:NSRangeFromString(self.pageData[index])];
+    dataViewController.dataObject = [self.text substringWithRange:NSMakeRange(offset, length)];
     dataViewController.displayName = self.displayName;
     dataViewController.attributes = self.attributes;
-    dataViewController.currentPage = index;
-    dataViewController.totalPage = [self.pageData count];
-    [PCGlobalModel shareModel].currentPage = index;
+    dataViewController.currentOffset = offset;
+    dataViewController.totalBytes = [self.pageData totalBytes];
+    [PCGlobalModel shareModel].currentOffset = offset;
     return dataViewController;
 }
 
-- (NSUInteger)indexOfViewController:(PCDataViewController *)viewController {
+- (NSInteger)offsetOfViewController:(PCDataViewController *)viewController {
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-    return [self.pageData indexOfObject:NSStringFromRange([self.text rangeOfString:viewController.dataObject])];
+    // You love searching? Silly!
+    // return [self.text rangeOfString:viewController.dataObject].location;
+    return viewController.currentOffset;
 }
 
 #pragma mark - Page View Controller Data Source
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    NSUInteger index = [self indexOfViewController:(PCDataViewController *)viewController];
-    if ((index == 0) || (index == NSNotFound)) {
+    NSInteger offset = [self offsetOfViewController:(PCDataViewController *)viewController];
+    if ((offset == -1) || (offset == 0) || (offset == NSNotFound)) {
         return nil;
     }
     
-    index--;
-    [PCGlobalModel shareModel].currentRange = NSRangeFromString(self.pageData[index]);
-    return [self viewControllerAtIndex:index];
+    NSInteger newoffset = [self.pageData offsetBeforeOffset:offset];
+    if (newoffset < 0) {
+        PCPageData *reloadData = [self reloadPageDataByOffset:offset allowRelocate:YES];
+        offset = [reloadData offsetBeforeOffset:reloadData.relocatedOffset];
+    } else {
+        offset = newoffset;
+    }
+    
+    [PCGlobalModel shareModel].currentRange = NSMakeRange(offset, [self.pageData getLengthByOffset:offset]);
+    return [self viewControllerAtOffset:offset];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
-    NSUInteger index = [self indexOfViewController:(PCDataViewController *)viewController];
-    if (index == NSNotFound) {
+    NSInteger offset = [self offsetOfViewController:(PCDataViewController *)viewController];
+    if ((offset == -1) || (offset == NSNotFound)) {
         return nil;
     }
     
-    index++;
-    if (index == [self.pageData count]) {
-        return nil;
+    NSInteger newoffset = [self.pageData offsetAfterOffset:offset];
+    if (newoffset < 0) {
+        PCPageData *reloadData = [self reloadPageDataByOffset:offset allowRelocate:NO];
+        offset = [reloadData offsetAfterOffset:reloadData.relocatedOffset];
+    } else {
+        offset = newoffset;
     }
-    [PCGlobalModel shareModel].currentRange = NSRangeFromString(self.pageData[index]);
-    return [self viewControllerAtIndex:index];
+    
+    [PCGlobalModel shareModel].currentRange = NSMakeRange(offset, [self.pageData getLengthByOffset:offset]);
+    return [self viewControllerAtOffset:offset];
+}
+
+- (PCPageData *)reloadPageDataByOffset:(NSInteger)offset
+                         allowRelocate:(BOOL)shouldRelocate {
+    _pageData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
+                                                       allowRelocate:shouldRelocate];
+    return _pageData;
 }
 
 @end

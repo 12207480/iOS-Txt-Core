@@ -7,11 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCPageData.h"
 
 @interface NSString (PCPaging)
 
-- (NSArray *)paginationWithAttributes:(NSDictionary *)attributes constrainedToSize:(CGSize)size range:(NSRange)range;
++ (CGFloat)heightForAttributedString:(NSAttributedString *)attrString forWidth:(CGFloat)inWidth;
+
+- (PCPageData *)paginationWithAttributes:(NSDictionary *)attributes
+                       constrainedToSize:(CGSize)size
+                                   range:(NSRange)range
+                           allowRelocate:(BOOL)shouldRelocate;
 
 - (NSString *)halfWidthToFullWidth;
+
+- (NSString *)filterBlankAndBlankLines;
 
 @end

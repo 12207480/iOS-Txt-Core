@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 com.stoneread.read All rights reserved.
 //
 
+#import "UIColor+PCColor.h"
 #import "PCDataViewController.h"
 #import "PCGlobalModel.h"
 #import "PCReaderTool.h"
@@ -21,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHex:[[PCConfig shareModel] backgroundColor]];
     [self.view addSubview:self.pageView];
     [self.view addSubview:self.displayNameLabel];
     [self.view addSubview:self.progressLabel];
@@ -86,7 +87,7 @@
     if (!_pageView) {
         _pageView = [[PCPageView alloc] init];
         _pageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _pageView.backgroundColor = [UIColor whiteColor];
+        _pageView.backgroundColor = [UIColor colorWithHex:[[PCConfig shareModel] backgroundColor]];
     }
     return _pageView;
 }
@@ -96,8 +97,8 @@
     if (!_displayNameLabel) {
         _displayNameLabel = [[UILabel alloc] init];
         _displayNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _displayNameLabel.font = [UIFont systemFontOfSize:12];
-        _displayNameLabel.textColor = [UIColor blackColor];
+        _displayNameLabel.font = [UIFont systemFontOfSize:13];
+        _displayNameLabel.textColor = [UIColor colorWithHex:[[PCConfig shareModel] labelColor]];
     }
     return _displayNameLabel;
 }
@@ -107,8 +108,8 @@
     if (!_progressLabel) {
         _progressLabel = [[UILabel alloc] init];
         _progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _progressLabel.font = [UIFont systemFontOfSize:12];
-        _progressLabel.textColor = [UIColor blackColor];
+        _progressLabel.font = [UIFont systemFontOfSize:13];
+        _progressLabel.textColor = [UIColor colorWithHex:[[PCConfig shareModel] labelColor]];
     }
     return _progressLabel;
 }
@@ -118,8 +119,8 @@
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _timeLabel.font = [UIFont systemFontOfSize:12];
-        _timeLabel.textColor = [UIColor blackColor];
+        _timeLabel.font = [UIFont systemFontOfSize:13];
+        _timeLabel.textColor = [UIColor colorWithHex:[[PCConfig shareModel] labelColor]];
     }
     return _timeLabel;
 }
@@ -129,8 +130,8 @@
     if (!_batteryLabel) {
         _batteryLabel = [[UILabel alloc] init];
         _batteryLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _batteryLabel.font = [UIFont systemFontOfSize:12];
-        _batteryLabel.textColor = [UIColor blackColor];
+        _batteryLabel.font = [UIFont systemFontOfSize:13];
+        _batteryLabel.textColor = [UIColor colorWithHex:[[PCConfig shareModel] labelColor]];
         _batteryLabel.textAlignment = NSTextAlignmentRight;
     }
     return _batteryLabel;

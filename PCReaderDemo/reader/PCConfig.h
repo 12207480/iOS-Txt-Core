@@ -11,7 +11,7 @@
 #define PC_CACHE_BYTES 30000 // 分页缓存大小
 // 注：向前分页误差率 = 取整(文档全长 / 分页缓存大小) / 文档分页数
 
-#define PC_INIT_OFFSET 98
+#define PC_INIT_OFFSET 0
 #define PC_INIT_FONT_TYPE 5 // 默认字体
 #define PC_INIT_FONT_SIZE 20 // 默认字体大小
 #define PC_INIT_BRIGHTNESS 100.0 // 默认亮度
@@ -19,7 +19,6 @@
 #define PC_INIT_LINE_SPACING 3.0 // 默认行距
 #define PC_INIT_PARAGRAPH_SPACING 15.0 // 默认段落间距
 #define PC_INIT_COLOR_TYPE 1 // 默认字体颜色方案
-#define PC_INIT_PAGE_MODE 1 // 翻页方式：滑动(1) 或 仿真(2)
 
 #define PC_FONT_1 @"STHeitiSC-Light" // 系统黑体
 #define PC_FONT_2 @"PingFang-SC-Light" // 苹方黑体

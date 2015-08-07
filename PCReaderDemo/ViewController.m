@@ -31,7 +31,7 @@
 
 - (IBAction)pushAction:(id)sender {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"35282.txt"];
+    NSString *docDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"test.txt"];
     
     NSFileManager *manager = [NSFileManager defaultManager];
     NSArray *arr = [manager contentsOfDirectoryAtPath:[paths objectAtIndex:0] error:nil];

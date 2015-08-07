@@ -12,6 +12,7 @@
 
 @property (nonatomic) NSUInteger totalBytes;
 @property (nonatomic) NSInteger relocatedOffset;
+@property (nonatomic) NSRange relocatedRange;
 @property (nonatomic, strong) NSMutableDictionary *cachedPagination;
 @property (nonatomic, strong) NSMutableArray *cachedSort;
 

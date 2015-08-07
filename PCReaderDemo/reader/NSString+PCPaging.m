@@ -79,21 +79,26 @@
     NSInteger rangeIndex = range.location;
     
     // 采样
+    unsigned long length = 0;
+    const char indentChars[4] = { 0xe3, 0x80, 0x80, 0x00 };
     NSMutableString *test_str = [NSMutableString string];
     NSUInteger times = 0;
     CFRange frameRange = {0, 0};
-    const char indentChars[4] = { 0xe3, 0x80, 0x80, 0x00 };
     NSString *indentStr = [[NSString alloc] initWithBytes:indentChars length:3 encoding:NSUTF8StringEncoding];
+    NSAttributedString *childString = nil;
+    CTFramesetterRef childFramesetter;
+    UIBezierPath *bezierPath = nil;
+    CTFrameRef frame;
     do {
         for (int i = 0; i < 300; i++, times++) {
             [test_str appendString:indentStr];
         }
         
-        NSAttributedString *childString = [[NSAttributedString alloc] initWithString:test_str attributes:attributes];
+        childString = [[NSAttributedString alloc] initWithString:test_str attributes:attributes];
         
-        CTFramesetterRef childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) childString);
-        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:rect];
-        CTFrameRef frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
+        childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) childString);
+        bezierPath = [UIBezierPath bezierPathWithRect:rect];
+        frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
         
         frameRange = CTFrameGetVisibleStringRange(frame);
         if (frame) CFRelease(frame);
@@ -107,13 +112,7 @@
 //    if (!shouldRelocate) {
         // 向前渲染
 //        do {
-//            unsigned long length = MIN(minEach, maxScale - rangeIndex);
-//            
-//            NSAttributedString *childString;
-//            CTFramesetterRef childFramesetter;
-//            UIBezierPath *bezierPath;
-//            CTFrameRef frame;
-//            CFRange frameRange = {0, 0};
+//            length = MIN(minEach, maxScale - rangeIndex);
 //            NSInteger startPos = rangeIndex - length;
 //            NSInteger len = length;
 //            
@@ -157,29 +156,33 @@
         }
     } else {
         rangeIndex = range.location;
-        resultRange.relocatedOffset = rangeIndex;
     }
     
     // 向后渲染
     do {
-        unsigned long length = MIN(minEach, maxScale - rangeIndex);
-        NSAttributedString *childString = [attributedString attributedSubstringFromRange:NSMakeRange(rangeIndex, length)];
+        length = MIN(minEach, maxScale - rangeIndex);
+        childString = [attributedString attributedSubstringFromRange:NSMakeRange(rangeIndex, length)];
         
-        CTFramesetterRef childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) childString);
-        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:rect];
-        CTFrameRef frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
+        childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) childString);
+        bezierPath = [UIBezierPath bezierPathWithRect:rect];
+        frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
         
-        CFRange frameRange = CTFrameGetVisibleStringRange(frame);
+        frameRange = CTFrameGetVisibleStringRange(frame);
         NSRange r = {rangeIndex, frameRange.length};
         
         if (r.length > 0) {
             [resultRange.cachedPagination setObject:@(r.length) forKey:@(r.location)];
-        }
-        
-        if (shouldRelocate) {
-            // 预定初始位置是否在该区间之内
-            if (rangeIndex <= range.location && rangeIndex + r.length > range.location) {
-                resultRange.relocatedOffset = rangeIndex;
+            if (shouldRelocate) {
+                // 预定初始位置是否在该区间之内
+                if (rangeIndex <= range.location && rangeIndex + r.length > range.location) {
+                    resultRange.relocatedOffset = rangeIndex;
+                    resultRange.relocatedRange = r;
+                }
+            } else {
+                if (rangeIndex == range.location) {
+                    resultRange.relocatedOffset = rangeIndex;
+                    resultRange.relocatedRange = r;
+                }
             }
         }
         

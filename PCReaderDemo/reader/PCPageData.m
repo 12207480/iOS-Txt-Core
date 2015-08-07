@@ -68,6 +68,7 @@
 - (id)mutableCopyWithZone:(NSZone *)zone {
     PCPageData *copy = [[[self class] allocWithZone:zone] init];
     copy->_relocatedOffset = _relocatedOffset;
+    copy->_relocatedRange = _relocatedRange;
     copy->_totalBytes = _totalBytes;
     copy->_cachedPagination = [_cachedPagination mutableCopy];
     copy->_cachedSort = [_cachedSort mutableCopy];

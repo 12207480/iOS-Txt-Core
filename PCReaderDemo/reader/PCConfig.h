@@ -11,7 +11,7 @@
 #define PC_CACHE_BYTES 30000 // 分页缓存大小
 // 注：向前分页误差率 = 取整(文档全长 / 分页缓存大小) / 文档分页数
 
-#define PC_INIT_OFFSET 0
+#define PC_INIT_OFFSET 0 // 初始化坐标
 #define PC_INIT_FONT_TYPE 5 // 默认字体
 #define PC_INIT_FONT_SIZE 20 // 默认字体大小
 #define PC_INIT_BRIGHTNESS 100.0 // 默认亮度

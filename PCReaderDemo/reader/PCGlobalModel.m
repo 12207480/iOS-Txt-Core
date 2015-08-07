@@ -70,6 +70,7 @@
     
     self.rangeData = [[self.text paginationWithAttributes:self.attributes constrainedToSize:_area range:NSMakeRange(_currentOffset, PC_CACHE_BYTES) allowRelocate:YES] mutableCopy];
     self.currentOffset = self.rangeData.relocatedOffset;
+    self.currentRange = self.rangeData.relocatedRange;
     if (completion) {
         completion();
     }
@@ -79,6 +80,7 @@
                            allowRelocate:(BOOL)shouldRelocate {
     _rangeData = [[_text paginationWithAttributes:_attributes constrainedToSize:_area range:NSMakeRange(offset,PC_CACHE_BYTES) allowRelocate:shouldRelocate] mutableCopy];
     _currentOffset = _rangeData.relocatedOffset;
+    _currentRange = _rangeData.relocatedRange;
     return _rangeData;
 }
 

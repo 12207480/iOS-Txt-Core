@@ -31,11 +31,11 @@
 
 - (IBAction)pushAction:(id)sender {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"test.txt"];
+    NSString *docDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"35282.txt"];
     
     NSFileManager *manager = [NSFileManager defaultManager];
     NSArray *arr = [manager contentsOfDirectoryAtPath:[paths objectAtIndex:0] error:nil];
-    NSLog(@"%@", arr);
+    NSLog(@"%@, path = %@", arr, docDir);
     
     // 文件路径
     NSURL *url = [NSURL fileURLWithPath:docDir];
@@ -65,7 +65,13 @@
 
 - (void)didFatalLoadingPCReaderWithError:(NSError *)error {
     if ([error code] == 256) {
-        _HUD.labelText = @"文件不存在或无法读取";
+        _HUD.labelText = @"文件无法读取";
+    } else if ([error code] == 257) {
+        _HUD.labelText = @"无读取权限";
+    } else if ([error code] == 260) {
+        _HUD.labelText = @"文件不存在";
+    } else if ([error code] == 261) {
+        _HUD.labelText = @"不支持的文件格式";
     } else {
         _HUD.labelText = @"未知错误";
     }

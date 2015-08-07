@@ -31,8 +31,11 @@
 @property (nonatomic, strong) PCFileHandler *fileHandler;
 @property (nonatomic) id <PCReaderViewControllerDelegate> delegate;
 
+// 直接定位到某位置
+- (void)jumpToOffset:(NSInteger)offset;
+// 重新加载页面设置，如翻页方式，翻页方向
+- (void)reloadPageConfig;
 - (void)loadText:(NSURL *)text;
 - (void)closeDocument;
-- (BOOL)shouldAutorotate;
 
 @end

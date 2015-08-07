@@ -223,7 +223,7 @@
     for (int i = 0; i < arr.count; i++) {
         tempStr = [(NSString *)arr[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (tempStr.length != 0) {
-            [Mstr appendString:arr[i]];
+            [Mstr appendString:tempStr];
             [Mstr appendString:addStr];
         }
     }

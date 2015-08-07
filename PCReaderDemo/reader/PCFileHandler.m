@@ -40,13 +40,16 @@
     
     if(![fileManager fileExistsAtPath:cache]) { // 缓存不存在，进行转码
         str = [[NSString alloc] initWithContentsOfURL:fileURL encoding:usedEncoding error:&convertError];
-        if (str && convertError != nil) {
+        if (!str && convertError != nil) {
+            convertError = nil;
             str = [[NSString alloc] initWithContentsOfURL:fileURL encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000) error:&convertError];
         }
-        if (str && convertError != nil) {
+        if (!str && convertError != nil) {
+            convertError = nil;
             str = [[NSString alloc] initWithContentsOfURL:fileURL encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_2312_80) error:&convertError];
         }
-        if (str && convertError != nil) {
+        if (!str && convertError != nil) {
+            convertError = nil;
             str = [[NSString alloc] initWithContentsOfURL:fileURL encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGBK_95) error:&convertError];
         }
     } else { // 缓存存在，直接读入
@@ -71,7 +74,6 @@
         }
         return;
     }
-    NSLog(@"%@", cachePath);
     // 判断缓存是否存在
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *cache = [[PCConfig shareModel] getCachePath:cachePath];
@@ -123,6 +125,10 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             // 缓存存在，读入分节数据（排版数据已被读入）
             _chapterData = [NSKeyedUnarchiver unarchiveObjectWithFile:[cache stringByAppendingString:@".chap"]];
+            if (![_chapterData isKindOfClass:[NSMutableDictionary class]] || [_chapterData count] == 0) {
+                // 分节数据不正确，删除
+                _chapterData = nil;
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([self.delegate respondsToSelector:@selector(didFinishLoadingText:)] == YES)
                 {

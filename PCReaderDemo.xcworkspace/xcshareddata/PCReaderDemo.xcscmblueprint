@@ -1,18 +1,25 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7CCEEAC0ABE5030828D029C0177030027D141BD0",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "7CCEEAC0ABE5030828D029C0177030027D141BD0+++F104EBE",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
-    "E2811579280C8FC45DBD8A3EB086096BA7A2E580" : {
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++BF174ED" : {
+
+    },
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++D855377" : {
 
     }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "E2811579280C8FC45DBD8A3EB086096BA7A2E580" : 0,
-    "7CCEEAC0ABE5030828D029C0177030027D141BD0" : 0
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++D855377" : 0,
+    "7CCEEAC0ABE5030828D029C0177030027D141BD0+++F104EBE" : 0,
+    "7CCEEAC0ABE5030828D029C0177030027D141BD0+++905CCAB" : 0,
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++BF174ED" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "8C21BFF3-46D2-44FF-8A2C-F756280F2E11",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "E2811579280C8FC45DBD8A3EB086096BA7A2E580" : "..\/..\/..\/opt\/theos",
-    "7CCEEAC0ABE5030828D029C0177030027D141BD0" : "ReaderForTxt-master\/"
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++D855377" : "..\/..\/..\/opt\/theos",
+    "7CCEEAC0ABE5030828D029C0177030027D141BD0+++F104EBE" : "Trunk\/",
+    "7CCEEAC0ABE5030828D029C0177030027D141BD0+++905CCAB" : "ReaderForTxt-master\/",
+    "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++BF174ED" : "..\/..\/..\/opt\/theos"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "PCReaderDemo",
   "DVTSourceControlWorkspaceBlueprintVersion" : 203,
@@ -21,17 +28,22 @@
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Lessica\/PCReaderDemo.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7CCEEAC0ABE5030828D029C0177030027D141BD0"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7CCEEAC0ABE5030828D029C0177030027D141BD0+++905CCAB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Lessica\/StoneRead-Txt-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7CCEEAC0ABE5030828D029C0177030027D141BD0+++F104EBE"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/svn.howett.net\/svn\/theos",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E2811579280C8FC45DBD8A3EB086096BA7A2E580"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++BF174ED"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/github.com\/DHowett\/theos.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E2811579280C8FC45DBD8A3EB086096BA7A2E580"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E2811579280C8FC45DBD8A3EB086096BA7A2E580+++D855377"
     }
   ]
 }

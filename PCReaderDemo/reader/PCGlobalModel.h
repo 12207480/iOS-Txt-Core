@@ -25,6 +25,7 @@ static NSString *kUpdatePageNotification = @"kUpdatePageNotification";
 // 从某处开始缓存分页，直接定位请允许重定位 (allowRelocate = YES)
 - (PCPageData *)reloadPaginationByOffset:(NSInteger)offset
                            allowRelocate:(BOOL)shouldRelocate;
+- (void)pagingTextCompletion:(void (^)(void))completion;
 - (void)loadText:(NSString *)text
       completion:(void(^)(void))completion;
 - (void)updateFontCompletion:(void(^)(void))completion;

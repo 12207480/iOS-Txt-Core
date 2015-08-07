@@ -52,7 +52,7 @@
 {
     [super viewWillAppear:animated];
     [self.pageView setAttributedText:[[NSAttributedString alloc] initWithString:self.dataObject attributes:self.attributes]];
-    [self.progressLabel setText:[NSString stringWithFormat:@"%.2f%%", ((float)(self.currentOffset + 1) / (self.totalBytes + 1))]];
+    [self updatePage];
     [self.displayNameLabel setText:self.displayName];
     
     [self.readerTool startMonitorTimeWithBlock:^(NSDate *currentDate) {
@@ -77,7 +77,7 @@
 
 - (void)updatePage
 {
-    [self.progressLabel setText:[NSString stringWithFormat:@"%.2f%%", ((float)([PCGlobalModel shareModel].currentOffset + 1) / (self.totalBytes + 1))]];
+    [self.progressLabel setText:[NSString stringWithFormat:@"%.2f%%", 100 * ((float)([PCGlobalModel shareModel].currentOffset + 1) / (self.totalBytes + 1))]];
 }
 
 #pragma mark - lazy loading

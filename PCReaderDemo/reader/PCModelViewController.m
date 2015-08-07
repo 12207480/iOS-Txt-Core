@@ -44,8 +44,6 @@
 - (NSInteger)offsetOfViewController:(PCDataViewController *)viewController {
     // Return the index of the given data view controller.
     // For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
-    // You love searching? Silly!
-    // return [self.text rangeOfString:viewController.dataObject].location;
     return viewController.currentOffset;
 }
 
@@ -60,7 +58,8 @@
     
     NSInteger newoffset = [self.pageData offsetBeforeOffset:offset];
     if (newoffset < 0) {
-        PCPageData *reloadData = [self reloadPageDataByOffset:offset allowRelocate:YES];
+        PCPageData *reloadData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
+                                                                        allowRelocate:YES];
         offset = [reloadData offsetBeforeOffset:reloadData.relocatedOffset];
     } else {
         offset = newoffset;
@@ -79,7 +78,8 @@
     
     NSInteger newoffset = [self.pageData offsetAfterOffset:offset];
     if (newoffset < 0) {
-        PCPageData *reloadData = [self reloadPageDataByOffset:offset allowRelocate:NO];
+        PCPageData *reloadData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
+                                                                        allowRelocate:NO];
         offset = [reloadData offsetAfterOffset:reloadData.relocatedOffset];
     } else {
         offset = newoffset;
@@ -87,13 +87,6 @@
     
     [PCGlobalModel shareModel].currentRange = NSMakeRange(offset, [self.pageData getLengthByOffset:offset]);
     return [self viewControllerAtOffset:offset];
-}
-
-- (PCPageData *)reloadPageDataByOffset:(NSInteger)offset
-                         allowRelocate:(BOOL)shouldRelocate {
-    _pageData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
-                                                       allowRelocate:shouldRelocate];
-    return _pageData;
 }
 
 @end

@@ -46,38 +46,28 @@
     return YES;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [[PCGlobalModel shareModel] updateArea];
+    [self adjustRangeArrayForText];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [[PCGlobalModel shareModel] updateArea];
     [self adjustRangeArrayForText];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.view.backgroundColor = [UIColor colorWithHex:[PCConfig shareModel].backgroundColor];
-    NSDictionary *options =[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:UIPageViewControllerSpineLocationMin]
-                                                       forKey: UIPageViewControllerOptionSpineLocationKey];
     
-    self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:[PCConfig shareModel].pageMode navigationOrientation:[PCConfig shareModel].pageTrans options:options];
-    
-    self.pageController.delegate = self;
-    
-    PCDataViewController *startingViewController = [self.modelController viewControllerAtOffset:[PCGlobalModel shareModel].currentOffset];
-    NSArray *viewControllers = @[startingViewController];
-    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    
-    self.pageController.dataSource = self.modelController;
-    self.modelController.readerController = self;
-    
-    [self addChildViewController:self.pageController];
-    [self.view addSubview:self.pageController.view];
-    
-    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
-    CGRect pageViewRect = self.view.bounds;
-    self.pageController.view.frame = pageViewRect;
-    
-    [self.pageController didMoveToParentViewController:self];
+    [self loadPageConfig];
     
     [self.view addSubview:self.menuButton];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_menuButton)]];
@@ -88,10 +78,49 @@
     [self setupToolbar];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self setNeedsStatusBarAppearanceUpdate];
+- (void)reloadPageConfig {
+    // 移除视图
+    [_pageController.view removeFromSuperview];
+    _pageController = nil;
+    
+    // 重建视图
+    [self loadPageConfig];
+}
+
+- (void)loadPageConfig {
+    NSDictionary *options =[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:UIPageViewControllerSpineLocationMin]
+                                                       forKey: UIPageViewControllerOptionSpineLocationKey];
+    self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:[PCConfig shareModel].pageMode navigationOrientation:[PCConfig shareModel].pageTrans options:options];
+    
+    self.pageController.delegate = self;
+    
+    PCDataViewController *startingViewController = [self.modelController viewControllerAtOffset:[PCGlobalModel shareModel].currentOffset];
+    NSArray *viewControllers = @[startingViewController];
+    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    
+    self.pageController.dataSource = self.modelController;
+    self.modelController.readerController = self;
+    
+    [self addChildViewController:self.pageController];
+    // 图书内容层始终位于最底层
+    [self.view insertSubview:self.pageController.view atIndex:0];
+    
+    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
+    CGRect pageViewRect = self.view.bounds;
+    self.pageController.view.frame = pageViewRect;
+    
+    [self.pageController didMoveToParentViewController:self];
+}
+
+- (void)jumpToOffset:(NSInteger)offset {
+    // 重新分页
+    self.modelController.pageData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset allowRelocate:YES];
+    
+    // 设置视图
+    PCDataViewController *newViewController = [self.modelController viewControllerAtOffset:[PCGlobalModel shareModel].currentOffset];
+    NSArray *viewControllers = @[newViewController];
+    
+    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
 }
 
 - (void)setupBackgroundView
@@ -214,10 +243,6 @@
     }
 }
 
-// 直接定位步骤
-// 第一步：分页
-// 调用 reloadPaginationByOffset:(NSInteger) allowRelocate:(BOOL) 进行分页
-// 第二步：调用该方法显示出控制器
 - (void)pageControllerSetOffset:(NSInteger)offset
 {
     [self.pageController setViewControllers:@[[self.modelController viewControllerAtOffset:offset]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
@@ -229,9 +254,12 @@
 }
 
 - (void)closeDocument {
+    [[PCGlobalModel shareModel] clear];
     _fileHandler = nil;
     _pageController = nil;
-    [[PCGlobalModel shareModel] clear];
+    _modelController = nil;
+    _globalModel = nil;
+    
     if ([self.delegate respondsToSelector:@selector(dismissPCReaderViewController:)] == YES)
     {
         [self.delegate dismissPCReaderViewController:self];
@@ -302,7 +330,7 @@
 {
     [self.globalModel updateFontCompletion:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kUpdatePageNotification object:nil];
-
+        
         self.modelController.text = self.globalModel.text;
         self.modelController.attributes = self.globalModel.attributes;
         self.modelController.pageData = self.globalModel.rangeData;

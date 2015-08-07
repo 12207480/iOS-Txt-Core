@@ -23,6 +23,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHex:[[PCConfig shareModel] backgroundColor]];
+    [self.pageView setAttributedText:[[NSAttributedString alloc] initWithString:self.dataObject attributes:self.attributes]];
     [self.view addSubview:self.pageView];
     [self.view addSubview:self.displayNameLabel];
     [self.view addSubview:self.progressLabel];
@@ -51,7 +52,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.pageView setAttributedText:[[NSAttributedString alloc] initWithString:self.dataObject attributes:self.attributes]];
     [self updatePage];
     [self.displayNameLabel setText:self.displayName];
     

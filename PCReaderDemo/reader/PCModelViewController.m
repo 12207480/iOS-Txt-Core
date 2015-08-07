@@ -58,9 +58,9 @@
     
     NSInteger newoffset = [self.pageData offsetBeforeOffset:offset];
     if (newoffset < 0) {
-        PCPageData *reloadData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
+        _pageData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
                                                                         allowRelocate:YES];
-        offset = [reloadData offsetBeforeOffset:reloadData.relocatedOffset];
+        offset = [_pageData offsetBeforeOffset:_pageData.relocatedOffset];
     } else {
         offset = newoffset;
     }
@@ -78,9 +78,9 @@
     
     NSInteger newoffset = [self.pageData offsetAfterOffset:offset];
     if (newoffset < 0) {
-        PCPageData *reloadData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
+        _pageData = [[PCGlobalModel shareModel] reloadPaginationByOffset:offset
                                                                         allowRelocate:NO];
-        offset = [reloadData offsetAfterOffset:reloadData.relocatedOffset];
+        offset = [_pageData offsetAfterOffset:_pageData.relocatedOffset];
     } else {
         offset = newoffset;
     }

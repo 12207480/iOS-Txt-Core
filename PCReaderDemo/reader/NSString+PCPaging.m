@@ -76,14 +76,14 @@
     // 最大规模
     NSInteger maxScale = ((range.location + range.length) > resultRange.totalBytes) ? resultRange.totalBytes : (range.location + range.length);
     
-    NSInteger rangeIndex = range.location;
+    NSInteger rangeIndex;
     
     // 采样
     unsigned long length = 0;
     const char indentChars[4] = { 0xe3, 0x80, 0x80, 0x00 };
     NSMutableString *test_str = [NSMutableString string];
     NSUInteger times = 0;
-    CFRange frameRange = {0, 0};
+    CFRange frameRange;
     NSString *indentStr = [[NSString alloc] initWithBytes:indentChars length:3 encoding:NSUTF8StringEncoding];
     NSAttributedString *childString = nil;
     CTFramesetterRef childFramesetter;
@@ -171,6 +171,7 @@
         NSRange r = {rangeIndex, frameRange.length};
         
         if (r.length > 0) {
+            [resultRange.cachedSort addObject:@(r.location)];
             [resultRange.cachedPagination setObject:@(r.length) forKey:@(r.location)];
             if (shouldRelocate) {
                 // 预定初始位置是否在该区间之内
@@ -191,16 +192,6 @@
         if (childFramesetter) CFRelease(childFramesetter);
     } while (rangeIndex < maxScale);
     
-    // 排序偏移量数组
-    [resultRange.cachedSort addObjectsFromArray:[[resultRange.cachedPagination allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
-        if ([obj1 integerValue] > [obj2 integerValue]) {
-            return NSOrderedDescending;
-        } else if ([obj1 integerValue] < [obj2 integerValue]) {
-            return NSOrderedAscending;
-        } else {
-            return NSOrderedSame;
-        }
-    }]];
     return resultRange;
 }
 

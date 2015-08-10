@@ -63,8 +63,10 @@
     }];
     
     [self.readerTool startMonitorBatteryWithBlock:^(CGFloat batteryLevel) {
-        NSString *powerStr = [[NSString alloc] initWithFormat:@"%d%%", (int)(batteryLevel * 100)];
-        self.batteryLabel.text = powerStr;
+        if (batteryLevel > 0) {
+            NSString *powerStr = [[NSString alloc] initWithFormat:@"%d%%", (int)(batteryLevel * 100)];
+            self.batteryLabel.text = powerStr;
+        }
     }];
 }
 

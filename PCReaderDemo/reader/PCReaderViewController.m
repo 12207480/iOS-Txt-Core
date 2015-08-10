@@ -107,7 +107,7 @@
     
     PCDataViewController *startingViewController = [self.modelController viewControllerAtOffset:[PCGlobalModel shareModel].currentOffset];
     NSArray *viewControllers = @[startingViewController];
-    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished){}];
+    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
 
 - (void)jumpToOffset:(NSInteger)offset {

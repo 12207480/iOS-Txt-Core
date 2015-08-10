@@ -16,7 +16,7 @@
 #import "PCFileHandler.h"
 #import "PCReaderTool.h"
 
-@interface PCReaderViewController () <UICollectionViewDelegate, PCFontAdjustViewDelegate>
+@interface PCReaderViewController () <PCFontAdjustViewDelegate>
 
 @property (strong, nonatomic) PCModelViewController *modelController;
 @property (strong, nonatomic) PCGlobalModel *globalModel;
@@ -25,7 +25,6 @@
 @property (strong, nonatomic) UIButton *backgroundView;
 @property (strong, nonatomic) UIToolbar *toolbar_top;
 @property (strong, nonatomic) UIToolbar *toolbar;
-@property (strong, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic) BOOL isShowMenu;
 
 @property (strong, nonatomic) NSArray *toolbarTopConstraintArray;
@@ -362,14 +361,6 @@
         [_menuButton addTarget:self action:@selector(menuAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _menuButton;
-}
-
-- (UICollectionViewFlowLayout *)flowLayout
-{
-    if (!_flowLayout) {
-        _flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    }
-    return _flowLayout;
 }
 
 - (PCGlobalModel *)globalModel

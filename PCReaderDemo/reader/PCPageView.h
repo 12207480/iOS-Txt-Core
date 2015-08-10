@@ -12,4 +12,6 @@
 
 @property (nonatomic, copy) NSAttributedString *attributedText;
 
+- (void)setText:(NSAttributedString *)attributedText;
+
 @end

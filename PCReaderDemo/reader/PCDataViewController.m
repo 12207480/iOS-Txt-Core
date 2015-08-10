@@ -23,13 +23,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHex:[[PCConfig shareModel] backgroundColor]];
-    [self.pageView setAttributedText:[[NSAttributedString alloc] initWithString:self.dataObject attributes:self.attributes]];
+    [self.pageView setText:[[NSAttributedString alloc] initWithString:self.dataObject attributes:self.attributes]];
     [self.view addSubview:self.pageView];
     [self.view addSubview:self.displayNameLabel];
     [self.view addSubview:self.progressLabel];
     [self.view addSubview:self.timeLabel];
     [self.view addSubview:self.batteryLabel];
-    
+
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_pageView]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_pageView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_pageView]-40-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_pageView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_displayNameLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_displayNameLabel)]];
@@ -39,7 +39,7 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_batteryLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_batteryLabel)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_batteryLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_batteryLabel)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_timeLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_timeLabel)]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_batteryLabel]-[_timeLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_batteryLabel, _timeLabel)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[_batteryLabel]-[_timeLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_batteryLabel, _timeLabel)]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage) name:kUpdatePageNotification object:nil];
 }
@@ -70,14 +70,25 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    
     [self.readerTool stopMonitorTime];
+    [self.readerTool stopMonitorBattery];
+    [super viewWillDisappear:animated];
+    [self.view.layer removeAllAnimations];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.readerTool = nil;
+    self.pageView = nil;
+    self.displayNameLabel = nil;
+    self.progressLabel = nil;
+    self.timeLabel = nil;
+    self.batteryLabel = nil;
 }
 
 - (void)updatePage
 {
-    [self.progressLabel setText:[NSString stringWithFormat:@"%.2f%%", 100 * ((float)([PCGlobalModel shareModel].currentOffset + 1) / (self.totalBytes + 1))]];
+    [self.progressLabel setText:[NSString stringWithFormat:@"%.1f%%", 100 * ((float)([PCGlobalModel shareModel].currentOffset + 1) / (self.totalBytes + 1))]];
 }
 
 #pragma mark - lazy loading

@@ -11,9 +11,16 @@
 
 @implementation PCPageView
 
+- (void)setText:(NSAttributedString *)attributedText
+{
+    self.attributedText = attributedText;
+    [self setNeedsDisplay];
+}
+
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     CGContextRef context = UIGraphicsGetCurrentContext();
+    
     // Flip the coordinate system
     CGContextSetTextMatrix(context, CGAffineTransformIdentity);
     CGContextTranslateCTM(context, 0, self.bounds.size.height);

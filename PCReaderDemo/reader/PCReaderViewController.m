@@ -94,14 +94,11 @@
     
     self.pageController.delegate = self;
     
-    PCDataViewController *startingViewController = [self.modelController viewControllerAtOffset:[PCGlobalModel shareModel].currentOffset];
-    NSArray *viewControllers = @[startingViewController];
-    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-    
     self.pageController.dataSource = self.modelController;
     self.modelController.readerController = self;
     
     [self addChildViewController:self.pageController];
+    [self.pageController didMoveToParentViewController:self];
     // 图书内容层始终位于最底层
     [self.view insertSubview:self.pageController.view atIndex:0];
     
@@ -109,7 +106,9 @@
     CGRect pageViewRect = self.view.bounds;
     self.pageController.view.frame = pageViewRect;
     
-    [self.pageController didMoveToParentViewController:self];
+    PCDataViewController *startingViewController = [self.modelController viewControllerAtOffset:[PCGlobalModel shareModel].currentOffset];
+    NSArray *viewControllers = @[startingViewController];
+    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished){}];
 }
 
 - (void)jumpToOffset:(NSInteger)offset {

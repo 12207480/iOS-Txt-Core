@@ -160,4 +160,12 @@
     return cache;
 }
 
+- (float)brightness {
+    return [UIScreen mainScreen].brightness;
+}
+
+- (void)setBrightness:(float)brightness {
+    [[UIScreen mainScreen] setBrightness:brightness];
+}
+
 @end

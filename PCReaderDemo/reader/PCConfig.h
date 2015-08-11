@@ -14,7 +14,7 @@
 #define PC_INIT_OFFSET 0 // 初始化坐标
 #define PC_INIT_FONT_TYPE 5 // 默认字体
 #define PC_INIT_FONT_SIZE 20 // 默认字体大小
-#define PC_INIT_BRIGHTNESS 100.0 // 默认亮度
+#define PC_INIT_BRIGHTNESS 75.0 // 默认亮度
 #define PC_INIT_AUTO_INDENT YES // 默认自动缩进
 #define PC_INIT_LINE_SPACING 3.0 // 默认行距
 #define PC_INIT_PARAGRAPH_SPACING 15.0 // 默认段落间距
@@ -60,7 +60,7 @@
 
 @property (nonatomic) unsigned int pageMode; // 翻页模式
 @property (nonatomic) unsigned int pageTrans; // 翻页方向
-@property (nonatomic) float brightness; // 亮度（未实现）
+@property (nonatomic) float brightness; // 屏幕亮度
 @property (nonatomic) unsigned int fontSize; // 字体大小
 @property (nonatomic) BOOL autoIndent; // 自动缩进（向段落开头中添加两个空格）
 @property (nonatomic) float lineSpacing; // 行距
@@ -76,5 +76,7 @@
 - (NSString *)backgroundColor; // 背景颜色
 - (NSString *)font; // 字体
 - (NSString *)getCachePath:(NSURL *)url; // 设定缓存路径命名规则
+- (float)brightness;
+- (void)setBrightness:(float)brightness;
 
 @end

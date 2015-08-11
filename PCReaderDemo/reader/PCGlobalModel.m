@@ -121,6 +121,8 @@
 
 - (void)clear {
     _text = nil;
+    _currentOffset = 0;
+    _currentRange = NSMakeRange(0, 0);
     _rangeData = nil;
     _attributes = nil;
 }

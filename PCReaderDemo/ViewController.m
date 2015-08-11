@@ -33,9 +33,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"test.txt"];
     
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSArray *arr = [manager contentsOfDirectoryAtPath:[paths objectAtIndex:0] error:nil];
-    NSLog(@"%@, path = %@", arr, docDir);
+    NSLog(@"path = %@", docDir);
     
     // 文件路径
     NSURL *url = [NSURL fileURLWithPath:docDir];
@@ -46,7 +44,7 @@
     // 设置委托
     reader.delegate = (id)self;
     
-    // 显示名称
+    // 显示名称（如果不设定，默认为路径的最后一部分）
     reader.displayName = @"test.txt";
     
     // 载入数据

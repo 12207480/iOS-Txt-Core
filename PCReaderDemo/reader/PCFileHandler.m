@@ -86,12 +86,13 @@
             NSArray *arr = [_text componentsSeparatedByString:@"\n"];
             NSPredicate *pred;
             NSString *tempStr;
-            NSArray *regex_arr = @[@"^\\s*第.+(章|节|回)\\s*.*$", @"^\\s*(零|一|二|三|四|五|六|七|八|九|十|百|千|[0-9])\\s*.*"];
+            NSArray *regex_arr = @[@"^.{0,30}第\\s*(〇|零|一|二|三|四|五|六|七|八|九|十|百|千|[0-9])+\\s*(章|节|回|集|卷|番|篇).{0,60}$", @"^.{0,30}(零|一|二|三|四|五|六|七|八|九|十|百|千|[0-9])\\s+\\S{0,60}$"];
             for (int j = 0; j < [regex_arr count]; j++) {
                 pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", [regex_arr objectAtIndex:j]];
                 for (int i = 0; i < arr.count; i++) {
-                    tempStr = (NSString *)arr[i];
+                    tempStr = [(NSString *)arr[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                     if ([pred evaluateWithObject:tempStr]) {
+                        NSLog(@"%@", tempStr);
                         [_chapterData setObject:tempStr forKey:@(offset)];
                     }
                     offset += tempStr.length + 1;

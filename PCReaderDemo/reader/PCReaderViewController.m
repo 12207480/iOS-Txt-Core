@@ -208,6 +208,7 @@
 
 - (void)loadText:(NSURL *)url
 {
+    _displayName = [[url pathComponents] lastObject];
     _fileHandler = [[PCFileHandler alloc] initWithURL:url];
     _fileHandler.delegate = self;
     [_fileHandler startProcessingWithCache:url];

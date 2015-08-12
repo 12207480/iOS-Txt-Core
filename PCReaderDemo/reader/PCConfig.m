@@ -25,7 +25,7 @@
 {
     self = [super init];
     if (self) {
-        self.pageMode = UIPageViewControllerTransitionStyleScroll;
+        self.pageMode = UIPageViewControllerTransitionStylePageCurl;
         self.pageTrans = UIPageViewControllerNavigationOrientationHorizontal;
         self.brightness = PC_INIT_BRIGHTNESS;
         self.fontSize = PC_INIT_FONT_SIZE;

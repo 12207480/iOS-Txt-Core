@@ -90,10 +90,10 @@
             for (int j = 0; j < [regex_arr count]; j++) {
                 pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", [regex_arr objectAtIndex:j]];
                 for (int i = 0; i < arr.count; i++) {
-                    tempStr = [(NSString *)arr[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    tempStr = (NSString *)arr[i];
                     if ([pred evaluateWithObject:tempStr]) {
                         NSLog(@"%@", tempStr);
-                        [_chapterData setObject:tempStr forKey:@(offset)];
+                        [_chapterData setObject:[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@(offset)];
                     }
                     offset += tempStr.length + 1;
                 }

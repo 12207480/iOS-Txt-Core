@@ -1,10 +1,19 @@
 PODS:
+  - KFEpubKit (0.0.6):
+    - KissXML
+    - SSZipArchive
+  - KissXML (5.0)
   - MBProgressHUD (0.9.1)
+  - SSZipArchive (0.3.2)
 
 DEPENDENCIES:
+  - KFEpubKit
   - MBProgressHUD (~> 0.9.1)
 
 SPEC CHECKSUMS:
+  KFEpubKit: 945938610590a08cd6301370fb25da837d535292
+  KissXML: ce643413d618ad69886d0d43c3792b7dedfe476e
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  SSZipArchive: 11801759495fa4efb7512ef652eb0042d68305d7
 
 COCOAPODS: 0.37.2

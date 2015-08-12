@@ -74,18 +74,18 @@
 {
     [self.readerTool stopMonitorTime];
     [self.readerTool stopMonitorBattery];
-    [super viewWillDisappear:animated];
     [self.view.layer removeAllAnimations];
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
     self.readerTool = nil;
     self.pageView = nil;
     self.displayNameLabel = nil;
     self.progressLabel = nil;
     self.timeLabel = nil;
     self.batteryLabel = nil;
+    [super viewDidDisappear:animated];
 }
 
 - (void)updatePage

@@ -21,8 +21,8 @@
 @property (strong, nonatomic) PCModelViewController *modelController;
 @property (strong, nonatomic) PCGlobalModel *globalModel;
 @property (strong, nonatomic) PCFontAdjustView *fontAdjustView;
-@property (strong, nonatomic) UIButton *menuButton;
-@property (strong, nonatomic) UIButton *backgroundView;
+//@property (strong, nonatomic) UIButton *menuButton;
+//@property (strong, nonatomic) UIButton *backgroundView;
 @property (strong, nonatomic) UIToolbar *toolbar_top;
 @property (strong, nonatomic) UIToolbar *toolbar;
 @property (nonatomic) BOOL isShowMenu;
@@ -68,13 +68,57 @@
     
     [self loadPageConfig];
     
-    [self.view addSubview:self.menuButton];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_menuButton)]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.menuButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.menuButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.2 constant:0]];
-    
-    [self setupBackgroundView];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    if (![tapGesture respondsToSelector:@selector(locationInView:)]) {
+        tapGesture = nil;
+    } else {
+        tapGesture.delegate = self;
+        tapGesture.numberOfTapsRequired = 1; // The default value is 1.
+        tapGesture.numberOfTouchesRequired = 1; // The default value is 1.
+        [self.view addGestureRecognizer:tapGesture];
+    }
+//    [self.view addSubview:self.menuButton];
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_menuButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_menuButton)]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.menuButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.menuButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.2 constant:0]];
+//    
+//    [self setupBackgroundView];
     [self setupToolbar];
+}
+
+- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
+{
+    switch (gestureRecognizer.state) {
+        case UIGestureRecognizerStateEnded: {
+            [self menuAction];
+            break;
+        }
+        case UIGestureRecognizerStateFailed: {
+            break;
+        }
+        case UIGestureRecognizerStatePossible: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint currentPoint = [gestureRecognizer locationInView:self.view];
+    if (CGRectContainsPoint(CGRectMake(self.view.frame.size.width / 4, self.view.frame.size.height / 4, self.view.frame.size.width / 2, self.view.frame.size.height / 2), currentPoint) ) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return NO;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    return YES;
 }
 
 - (void)reloadPageConfig {
@@ -121,17 +165,17 @@
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
 }
 
-- (void)setupBackgroundView
-{
-    self.backgroundView = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.backgroundView addTarget:self action:@selector(backgroundAction) forControlEvents:UIControlEventTouchUpInside];
-    self.backgroundView.hidden = YES;
-    
-    [self.view addSubview:self.backgroundView];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_backgroundView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundView)]];
-}
+//- (void)setupBackgroundView
+//{
+//    self.backgroundView = [UIButton buttonWithType:UIButtonTypeCustom];
+//    self.backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.backgroundView addTarget:self action:@selector(backgroundAction) forControlEvents:UIControlEventTouchUpInside];
+//    self.backgroundView.hidden = YES;
+//    
+//    [self.view addSubview:self.backgroundView];
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_backgroundView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundView)]];
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_backgroundView)]];
+//}
 
 - (void)setupToolbar
 {
@@ -275,7 +319,7 @@
     self.isShowMenu = !self.isShowMenu;
     
     [self setNeedsStatusBarAppearanceUpdate];
-    self.backgroundView.hidden = !self.isShowMenu;
+//    self.backgroundView.hidden = !self.isShowMenu;
     if (self.isShowMenu) {
         [self showToolbar];
     } else {
@@ -283,19 +327,19 @@
     }
 }
 
-- (void)backgroundAction
-{
-    self.isShowMenu = NO;
-    
-    [self setNeedsStatusBarAppearanceUpdate];
-    self.backgroundView.hidden = !self.isShowMenu;
-    self.fontAdjustView.alpha = 0;
-    if (self.isShowMenu) {
-        [self showToolbar];
-    } else {
-        [self hideToolbar];
-    }
-}
+//- (void)backgroundAction
+//{
+//    self.isShowMenu = NO;
+//    
+//    [self setNeedsStatusBarAppearanceUpdate];
+//    self.backgroundView.hidden = !self.isShowMenu;
+//    self.fontAdjustView.alpha = 0;
+//    if (self.isShowMenu) {
+//        [self showToolbar];
+//    } else {
+//        [self hideToolbar];
+//    }
+//}
 
 - (PCModelViewController *)modelController {
     // Return the model controller object, creating it if necessary.
@@ -355,15 +399,15 @@
 
 #pragma mark - lazy loading
 
-- (UIButton *)menuButton
-{
-    if (!_menuButton) {
-        _menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _menuButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_menuButton addTarget:self action:@selector(menuAction) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _menuButton;
-}
+//- (UIButton *)menuButton
+//{
+//    if (!_menuButton) {
+//        _menuButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        _menuButton.translatesAutoresizingMaskIntoConstraints = NO;
+//        [_menuButton addTarget:self action:@selector(menuAction) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _menuButton;
+//}
 
 - (PCGlobalModel *)globalModel
 {

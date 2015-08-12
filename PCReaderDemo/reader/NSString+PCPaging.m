@@ -46,8 +46,8 @@
         H+=h;
     }
     
-    if (frame) CFRelease(frame);
     if (path) CFRelease(path);
+    if (frame) CFRelease(frame);
     if (framesetter) CFRelease(framesetter);
     
     return H;
@@ -86,8 +86,8 @@
     CFRange frameRange;
     NSString *indentStr = [[NSString alloc] initWithBytes:indentChars length:3 encoding:NSUTF8StringEncoding];
     NSAttributedString *childString = nil;
+    CGMutablePathRef path;
     CTFramesetterRef childFramesetter;
-    UIBezierPath *bezierPath = nil;
     CTFrameRef frame;
     do {
         for (int i = 0; i < 300; i++, times++) {
@@ -97,10 +97,12 @@
         childString = [[NSAttributedString alloc] initWithString:test_str attributes:attributes];
         
         childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) childString);
-        bezierPath = [UIBezierPath bezierPathWithRect:rect];
-        frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
+        path = CGPathCreateMutable();
+        CGPathAddRect(path, NULL, rect);
+        frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), path, NULL);
         
         frameRange = CTFrameGetVisibleStringRange(frame);
+        if (path) CFRelease(path);
         if (frame) CFRelease(frame);
         if (childFramesetter) CFRelease(childFramesetter);
     } while (frameRange.length >= times);
@@ -120,8 +122,9 @@
 //                startPos = ((int)startPos < 0) ? 0 : startPos;
 //                childString = [attributedString attributedSubstringFromRange:NSMakeRange(startPos, length)];
 //                childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)childString);
-//                bezierPath = [UIBezierPath bezierPathWithRect:rect];
-//                frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
+//                path = CGPathCreateMutable();
+//                CGPathAddRect(path, NULL, rect);
+//                frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), path, NULL);
 //                frameRange = CTFrameGetVisibleStringRange(frame);
 //                if (frame) CFRelease(frame);
 //                if (childFramesetter) CFRelease(childFramesetter);
@@ -163,9 +166,11 @@
         length = MIN(minEach, maxScale - rangeIndex);
         childString = [attributedString attributedSubstringFromRange:NSMakeRange(rangeIndex, length)];
         
+        path = CGPathCreateMutable();
+        CGPathAddRect(path, NULL, rect);
         childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) childString);
-        bezierPath = [UIBezierPath bezierPathWithRect:rect];
-        frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
+        
+        frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), path, NULL);
         
         frameRange = CTFrameGetVisibleStringRange(frame);
         NSRange r = {rangeIndex, frameRange.length};
@@ -188,6 +193,7 @@
         }
         
         rangeIndex += r.length;
+        if (path) CFRelease(path);
         if (frame) CFRelease(frame);
         if (childFramesetter) CFRelease(childFramesetter);
     } while (rangeIndex < maxScale);

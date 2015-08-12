@@ -11,27 +11,27 @@
 
 @implementation PCPageView
 
-- (void)setText:(NSAttributedString *)attributedText
-{
-    self.attributedText = attributedText;
-    [self setNeedsDisplay];
-}
-
 - (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
     // Drawing code
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     // Flip the coordinate system
     CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-    CGContextTranslateCTM(context, 0, self.bounds.size.height);
+    CGContextTranslateCTM(context, 0, rect.size.height);
     CGContextScaleCTM(context, 1.0, -1.0);
     
-    CTFramesetterRef childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)self.attributedText);
-    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:rect];
-    CTFrameRef frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
+    // Create Path
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, rect);
+    
+    CTFramesetterRef childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)_attributedText);
+    CTFrameRef frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, _attributedText.length), path, NULL);
     
     CTFrameDraw(frame, context);
     if (frame) CFRelease(frame);
+    if (path) CFRelease(path);
     if (childFramesetter) CFRelease(childFramesetter);
 }
 

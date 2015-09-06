@@ -62,6 +62,7 @@
 @property (nonatomic) unsigned int pageTrans; // 翻页方向
 @property (nonatomic) float brightness; // 屏幕亮度
 @property (nonatomic) unsigned int fontSize; // 字体大小
+@property (nonatomic) NSInteger startOffset;
 @property (nonatomic) BOOL autoIndent; // 自动缩进（向段落开头中添加两个空格）
 @property (nonatomic) float lineSpacing; // 行距
 @property (nonatomic) float paragraphSpacing; // 段落间距

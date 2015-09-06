@@ -34,6 +34,7 @@
         self.paragraphSpacing = PC_INIT_PARAGRAPH_SPACING;
         self.colorType = PC_INIT_COLOR_TYPE;
         self.fontType = PC_INIT_FONT_TYPE;
+        self.startOffset = PC_INIT_OFFSET;
     }
     return self;
 }
@@ -152,7 +153,7 @@
 }
 
 - (NSUInteger)initOffset {
-    return PC_INIT_OFFSET;
+    return self.startOffset;
 }
 
 - (NSString *)getCachePath:(NSURL *)url {
